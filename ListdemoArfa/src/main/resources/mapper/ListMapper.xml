@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.list.demo.mapper.ListMapper">
+
+    <resultMap id="MyListMap" type="com.example.list.demo.entity.RiskTable">
+    <id property="code" column="code" jdbcType="VARCHAR"></id>
+    <result property="riskName" column="risk_name" jdbcType="VARCHAR"></result>
+    <result property="parentCode" column="parent_code" jdbcType="VARCHAR"></result>
+        <collection property="children" column="{code=code}" select="getByOneParentNode" ofType="com.example.list.demo.entity.RiskTable">
+
+        </collection>
+    </resultMap>
+
+    <resultMap id="MyMap" type="com.example.list.demo.entity.RiskTable">
+        <id property="code" column="code" jdbcType="VARCHAR"></id>
+        <result property="riskName" column="risk_name" jdbcType="VARCHAR"></result>
+        <result property="parentCode" column="parent_code" jdbcType="VARCHAR"></result>
+    </resultMap>
+
+    <!--查询父节点信息-->
+    <select id="getParentByNode" resultMap="MyMap">
+        select
+        *
+        from risk_table t
+        where t.code= #{code}
+    </select>
+
+
+    <!--通过controller传递parent code 获取子节点-->
+    <select id="getByOneParentNode" resultMap="MyListMap">
+            select
+            *
+            from risk_table t
+            where t.parent_code = #{code}
+            order by t.risk_name
+    </select>
+
+    <!--删除-->
+    <delete id="deleteNode" parameterType="com.example.list.demo.entity.RiskTable" statementType="CALLABLE">
+        {call proc_delNode(#{code})}
+    </delete>
+
+
+    <!--插入-->
+    <insert id="insertRisk" parameterType="com.example.list.demo.entity.RiskTable">
+        insert into risk_table(code,risk_name,parent_code)
+        values(#{code},#{riskName},#{parentCode})
+    </insert>
+
+    <insert id="insertRiskDown" parameterType="com.example.list.demo.entity.RiskTable" statementType="CALLABLE">
+          {call insert_down(#{code},#{riskName},#{parentCode})}
+    </insert>
+
+    <insert id="insertRiskUp" parameterType="com.example.list.demo.entity.RiskTable" statementType="CALLABLE">
+          {call insertUp(#{code},#{riskName},#{parentCode})}
+    </insert>
+
+
+</mapper>

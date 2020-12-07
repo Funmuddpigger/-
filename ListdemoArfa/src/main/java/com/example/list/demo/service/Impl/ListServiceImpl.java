@@ -46,4 +46,9 @@ public class ListServiceImpl implements ListService {
         return listMapper.insertRiskUp(riskTable);
     }
 
+    @Override
+    public synchronized void insert(RiskTable riskTable) {
+        listMapper.insert(riskTable);
+    }
+
 }

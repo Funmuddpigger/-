@@ -1,12 +1,18 @@
 package com.example.list.demo.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.list.demo.entity.RiskTable;
 import com.example.list.demo.service.ListService;
 import com.example.list.demo.utils.Result;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +39,7 @@ public class ListController {
     /*删除节点*/
     @RequestMapping(value = "/node/deleteNode", method = {RequestMethod.GET,RequestMethod.POST})
     public Result deleteNode(@RequestParam("code") String code){
+        System.out.println(code);
         listService.deleteNode(code);
         return Result.success("success",200);
     }
@@ -43,6 +50,7 @@ public class ListController {
         String code = jsonObject.getString("code");
         String riskName = jsonObject.getString("riskName");
         String parentCode = jsonObject.getString("parentCode");
+        System.out.println("up"+code);
         riskTable.setCode(code);
         riskTable.setRiskName(riskName);
         riskTable.setParentCode(parentCode);
@@ -80,5 +88,37 @@ public class ListController {
         riskTable.setParentCode(parentCode);
         listService.insertRiskUp(riskTable);
         return   Result.success("插入 up 成功!");
+    }
+
+
+
+
+    @PostMapping("/insert")
+    public Result insert() throws Exception {
+        RiskTable riskTable = new RiskTable();
+        File jsonFile = ResourceUtils.getFile("classpath:area.json");
+        System.out.println(jsonFile);
+        String json = FileUtils.readFileToString(jsonFile,"UTF-8");
+        System.out.println(json);
+        JSONObject jsonObject = JSONObject.parseObject(json);
+
+        //JSONArray jsonArray = JSON.parseArray(json);
+        JSONArray jsonArray = jsonObject.getJSONArray("array");
+        for(int i = 0;i<jsonArray.size();i++){
+            JSONObject object = jsonArray.getJSONObject(i);
+            String cd = object.getString("cd");
+            String name = object.getString("nm");
+            if (cd.length() == 2) {
+                riskTable.setParentCode("0");
+            } else {
+                riskTable.setParentCode(cd.substring(0, cd.length() - 2));
+            }
+            riskTable.setRiskName(name);
+            riskTable.setCode(cd);
+
+            listService.insert(riskTable);
+        }
+        System.out.println(jsonArray);
+        return Result.success("success");
     }
 }

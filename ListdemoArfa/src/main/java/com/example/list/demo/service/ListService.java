@@ -1,6 +1,7 @@
 package com.example.list.demo.service;
 
 import com.example.list.demo.entity.RiskTable;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 
@@ -16,5 +17,8 @@ public interface ListService {
     public int insertRiskDown(RiskTable riskTable);
 
     public int insertRiskUp(RiskTable riskTable);
+
+    @Async
+    void insert(RiskTable riskTable);
 
 }

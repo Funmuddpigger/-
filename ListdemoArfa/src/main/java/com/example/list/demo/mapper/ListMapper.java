@@ -21,4 +21,6 @@ public interface ListMapper {
 
     public int insertRiskUp(RiskTable riskTable);
 
+    public void insert(RiskTable riskTable);
+
 }

@@ -9,3 +9,6 @@ spring:
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: com.example.list.demo.entity
+
+server:
+  port: 9999

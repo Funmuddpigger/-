@@ -55,5 +55,10 @@
           {call insertUp(#{code},#{riskName},#{parentCode})}
     </insert>
 
+    <insert id="insert" parameterType="com.example.list.demo.entity.RiskTable">
+         insert into risk_table
+         values (#{code},#{riskName},#{parentCode})
+    </insert>
+
 
 </mapper>

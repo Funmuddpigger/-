@@ -96,13 +96,7 @@ public class ListController {
     @PostMapping("/insert")
     public Result insert(@RequestBody JSONObject jsonparam ) throws Exception {
         RiskTable riskTable = new RiskTable();
-//        File jsonFile = ResourceUtils.getFile("classpath:area.json");
-//        System.out.println(jsonFile);
-//        String json = FileUtils.readFileToString(jsonFile,"UTF-8");
-//        System.out.println(json);
-       // JSONObject jsonObject = JSONObject.parseObject(json);
 
-        //JSONArray jsonArray = JSON.parseArray(json);
         System.out.println(jsonparam);
         JSONArray jsonArray = jsonparam.getJSONArray("xzq");
 
@@ -115,6 +109,7 @@ public class ListController {
             } else {
                 riskTable.setParentCode(cd.substring(0, cd.length() - 2));
             }
+            System.out.println("code name : "+ cd+"code len: "+cd.length()+"name" + name);
             riskTable.setRiskName(name);
             riskTable.setCode(cd);
 

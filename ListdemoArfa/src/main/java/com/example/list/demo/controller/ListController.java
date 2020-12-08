@@ -94,16 +94,18 @@ public class ListController {
 
 
     @PostMapping("/insert")
-    public Result insert() throws Exception {
+    public Result insert(@RequestBody JSONObject jsonparam ) throws Exception {
         RiskTable riskTable = new RiskTable();
-        File jsonFile = ResourceUtils.getFile("classpath:area.json");
-        System.out.println(jsonFile);
-        String json = FileUtils.readFileToString(jsonFile,"UTF-8");
-        System.out.println(json);
-        JSONObject jsonObject = JSONObject.parseObject(json);
+//        File jsonFile = ResourceUtils.getFile("classpath:area.json");
+//        System.out.println(jsonFile);
+//        String json = FileUtils.readFileToString(jsonFile,"UTF-8");
+//        System.out.println(json);
+       // JSONObject jsonObject = JSONObject.parseObject(json);
 
         //JSONArray jsonArray = JSON.parseArray(json);
-        JSONArray jsonArray = jsonObject.getJSONArray("array");
+        System.out.println(jsonparam);
+        JSONArray jsonArray = jsonparam.getJSONArray("xzq");
+
         for(int i = 0;i<jsonArray.size();i++){
             JSONObject object = jsonArray.getJSONObject(i);
             String cd = object.getString("cd");

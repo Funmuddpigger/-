@@ -39,8 +39,11 @@ public class ListController {
     /*删除节点*/
     @RequestMapping(value = "/node/deleteNode", method = {RequestMethod.GET,RequestMethod.POST})
     public Result deleteNode(@RequestParam("code") String code){
-        System.out.println(code);
-        listService.deleteNode(code);
+        String node = listService.selectNode(code);
+        String[] codeList = node.split(",");
+        for(int i=1;i<codeList.length;i++){
+            listService.deleteNode(codeList[i]);
+        }
         return Result.success("success",200);
     }
 

@@ -51,4 +51,6 @@ public class ListServiceImpl implements ListService {
         listMapper.insert(riskTable);
     }
 
+    @Override
+    public String selectNode(String code) { return listMapper.selectNode(code); }
 }

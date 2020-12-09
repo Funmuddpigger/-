@@ -21,4 +21,5 @@ public interface ListService {
     @Async
     void insert(RiskTable riskTable);
 
+    String selectNode(String code);
 }

@@ -35,12 +35,6 @@
             order by t.risk_name
     </select>
 
-    <!--删除-->
-    <delete id="deleteNode" parameterType="com.example.list.demo.entity.RiskTable" statementType="CALLABLE">
-        {call proc_delNode(#{code})}
-    </delete>
-
-
     <!--插入-->
     <insert id="insertRisk" parameterType="com.example.list.demo.entity.RiskTable">
         insert into risk_table(code,risk_name,parent_code)
@@ -59,6 +53,16 @@
          insert into risk_table
          values (#{code},#{riskName},#{parentCode})
     </insert>
+
+    <select id="selectNode" parameterType="com.example.list.demo.entity.RiskTable" resultType="String">
+    select del(#{code}) from dual
+</select>
+
+    <!--删除-->
+    <delete id="deleteNode" parameterType="com.example.list.demo.entity.RiskTable">
+    delete from risk_table
+    where code = #{code}
+</delete>
 
 
 </mapper>

@@ -90,7 +90,12 @@ public class ListController {
         return   Result.success("插入 up 成功!");
     }
 
-
+    @PostMapping("/delete")
+    public Result delete(@RequestParam("code") String code){
+        listService.getByOneParentNode(code);
+        System.out.println(code);
+        return Result.success("ok");
+    }
 
 
     @PostMapping("/insert")
@@ -109,7 +114,6 @@ public class ListController {
             } else {
                 riskTable.setParentCode(cd.substring(0, cd.length() - 2));
             }
-            System.out.println("code name : "+ cd+"code len: "+cd.length()+"name" + name);
             riskTable.setRiskName(name);
             riskTable.setCode(cd);
 

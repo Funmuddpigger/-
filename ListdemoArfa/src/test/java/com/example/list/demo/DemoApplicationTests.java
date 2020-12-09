@@ -22,9 +22,15 @@ class DemoApplicationTests {
 	void delete(){
 		List<RiskTable> lists = listService.getByOneParentNode("11");
 		for (RiskTable node : lists) {
-			System.out.println(node);
-			getChild(node.getCode());
+			if(hasChild(node)){
+				getChild(node.getCode());
+			}
 		}
+		for (RiskTable node : lists) {
+			System.out.println("del code:"+ node.getCode());
+		}
+		RiskTable parentCode = listService.getParentByNode("11");
+		System.out.println("del parent :"+ parentCode.getCode());
 	}
 
 	boolean hasChild(RiskTable node){
@@ -37,11 +43,11 @@ class DemoApplicationTests {
 	List<RiskTable> getChild(String code){
 		List<RiskTable> lists = listService.getByOneParentNode(code);
 		for (RiskTable node : lists) {
-				if(hasChild(node)){
-					System.out.println(node);
-					return getChild(node.getCode());
-				}
+			System.out.println("delch code:"+ node.getCode());
+			if(hasChild(node)){
+				return getChild(node.getCode());
 			}
+		}
 		return null;
 	}
 

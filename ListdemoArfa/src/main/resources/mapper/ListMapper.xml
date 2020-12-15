@@ -51,18 +51,21 @@
 
     <insert id="insert" parameterType="com.example.list.demo.entity.RiskTable">
          insert into risk_table
-         values (#{code},#{riskName},#{parentCode})
+         values
+         <foreach collection="list" item="item" separator=",">
+            (#{item.code},#{item.riskName},#{item.parentCode})
+         </foreach>
     </insert>
 
     <select id="selectNode" parameterType="com.example.list.demo.entity.RiskTable" resultType="String">
     select del(#{code}) from dual
-</select>
+    </select>
 
     <!--删除-->
     <delete id="deleteNode" parameterType="com.example.list.demo.entity.RiskTable">
     delete from risk_table
     where code = #{code}
-</delete>
+    </delete>
 
 
 </mapper>

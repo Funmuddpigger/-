@@ -13,6 +13,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +108,7 @@ public class ListController {
 
         System.out.println(jsonparam);
         JSONArray jsonArray = jsonparam.getJSONArray("xzq");
-
+        List<RiskTable> list = new ArrayList<>();
         for(int i = 0;i<jsonArray.size();i++){
             JSONObject object = jsonArray.getJSONObject(i);
             String cd = object.getString("cd");
@@ -117,11 +118,13 @@ public class ListController {
             } else {
                 riskTable.setParentCode(cd.substring(0, cd.length() - 2));
             }
+
             riskTable.setRiskName(name);
             riskTable.setCode(cd);
 
-            listService.insert(riskTable);
+            list.add(riskTable);
         }
+        listService.insert(list);
         System.out.println(jsonArray);
         return Result.success("success");
     }

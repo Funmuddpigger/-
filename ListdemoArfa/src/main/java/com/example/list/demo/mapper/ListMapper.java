@@ -21,7 +21,7 @@ public interface ListMapper {
 
     public int insertRiskUp(RiskTable riskTable);
 
-    public void insert(RiskTable riskTable);
+    public void insert(List<RiskTable> riskTable);
 
     public String selectNode(String code);
 }

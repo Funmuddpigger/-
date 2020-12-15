@@ -18,8 +18,8 @@ public interface ListService {
 
     public int insertRiskUp(RiskTable riskTable);
 
-    @Async
-    void insert(RiskTable riskTable);
+
+    void insert(List<RiskTable> riskTable);
 
     String selectNode(String code);
 }
